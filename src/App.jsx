@@ -1,50 +1,49 @@
 import { useEffect, useState } from 'react';
 
-function App() {
-  const [count, setCount] = useState(0);
-  const [username, setUsername] = useState('');
+// #1 Basic CleanUp
+// let count = 0;
+// // CleanUpFunction
+// function App() {
+//   const [data, setData] = useState('');
 
-  // useEffect มีแค่ callback / ไม่มี array : effect จะรันทุกการ render
-  // useEffect(() => {
-  //   console.log('#2 : Effect Run Every Render / Rerender');
-  // });
+//   useEffect(() => {
+//     // Outer Fn
+//     count++;
+//     console.log('data change', data, count);
 
-  // empty deps array : useEffect จะรันแค่ 1 ครั้ง (First Render)
-  // useEffect(() => {
-  //   console.log('#1 : After First Render : Component Did Mount');
-  // }, []);
+//     return () => {
+//       console.log('## clean up phase', data, count);
+//     };
+//   }, [data]);
 
-  // watch count : 1st Render + Count Change
-  // useEffect(() => {
-  //   console.log('#3 : Run เมื่อ  1st Render, Count เปลี่ยน');
-  // }, [count]);
+//   return <input className='border-2' value={data} onChange={(e) => setData(e.target.value)} />;
+// }
 
-  // useEffect(() => {
-  //   console.log('#4 : Run เมื่อ  1st Render, username เปลี่ยน');
-  // }, [username]);
+// ## Component Will Unmount (ก่อนตาย)
 
+function Input() {
+  // Outer of Outer
+  const [data, setData] = useState('');
   useEffect(() => {
-    console.log('#5 : Run เมื่อ  1st Render, username หรือ Count เปลี่ยน');
-  }, [username, count]);
-
-  const handleClick = () => setCount((c) => c + 1);
-  const handleChange = (e) => setUsername(e.target.value);
-  return (
-    <>
-      <h1>Count : {count}</h1>
-      <button className='p-1 px-2 bg-black text-white rounded-md' onClick={handleClick}>
-        increase
-      </button>
-      <div className='flex flex-col'>
-        <label>username</label>
-        <input
-          className='border-blue-950 border-solid border-2'
-          value={username}
-          onChange={handleChange}
-        />
-      </div>
-    </>
-  );
+    // Outer Scope
+    console.log('I was born');
+    return () => {
+      // Inner Scope
+      console.log("I'm gonna die with", data); // "" , Closure of 1st Render
+    };
+  }, []);
+  return <input className='border-2' value={data} onChange={(e) => setData(e.target.value)} />;
 }
 
+function App() {
+  const [isShow, setIsShow] = useState(false);
+  return (
+    <div>
+      <button className='bg-slate-500 p-1 text-white' onClick={() => setIsShow(!isShow)}>
+        Toggle
+      </button>
+      {isShow && <Input />}
+    </div>
+  );
+}
 export default App;
