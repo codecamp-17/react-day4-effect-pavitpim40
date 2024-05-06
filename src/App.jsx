@@ -1,12 +1,22 @@
-import { useState } from 'react';
-import DogImage from './components/DogImage';
+import { useState, useEffect } from 'react';
 
 export default function App() {
-  const [isShow, setIsShow] = useState(false);
+  const [email, setEmail] = useState('');
+  const [isError, setIsError] = useState(false);
+
+  useEffect(() => {
+    if (email.includes('@')) setIsError(false);
+    else setIsError(true);
+  }, [email]);
   return (
     <main>
-      <button onClick={() => setIsShow((cur) => !cur)}>toggle image</button>
-      {isShow ? <DogImage /> : null}
+      <input
+        type='email'
+        className='border-2'
+        style={{ borderColor: isError ? 'red' : 'green' }}
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+      />
     </main>
   );
 }
