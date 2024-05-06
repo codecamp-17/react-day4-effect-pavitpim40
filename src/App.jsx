@@ -1,5 +1,13 @@
-function App() {
-  return <h1>Hello world!</h1>;
-}
+// App.jsx
+import { useState } from 'react';
+import UserProfile from './components/UserProfile';
 
-export default App;
+export default function App() {
+  const [isShow, setIsShow] = useState(false);
+  return (
+    <main>
+      <button onClick={() => setIsShow((cur) => !cur)}>show profile</button>
+      {isShow ? <UserProfile /> : null}
+    </main>
+  );
+}
