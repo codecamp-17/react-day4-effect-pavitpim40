@@ -4,29 +4,28 @@ function UserProfile() {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
+    console.log('Effect Run');
     // // Declare
-    // const fetchUser = async () => {
-    //   try {
-    //     const response = await fetch('https://jsonplaceholder.typicode.com/users/1');
-    //     const data = await response.json();
-    //     setUser(data);
-    //   } catch (error) {
-    //     console.log(error);
-    //   }
-    // };
-    // // Execute
-    // fetchUser();
-
-    // IIFE
-    (async () => {
+    const fetchUser = async () => {
       try {
         const response = await fetch('https://jsonplaceholder.typicode.com/users/1');
         const data = await response.json();
+        console.log('fetch Success');
         setUser(data);
       } catch (error) {
         console.log(error);
       }
-    })();
+    };
+    // Execute
+    const id = setTimeout(() => {
+      fetchUser();
+    }, 10 * 1000);
+
+    // Run Before Component die
+    return () => {
+      console.log('Abort Fetch');
+      clearTimeout(id);
+    };
   }, []);
   return (
     <div>
