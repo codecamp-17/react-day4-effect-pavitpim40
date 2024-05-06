@@ -1,7 +1,16 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function App() {
+  // FN-BODY(Except inside useEffect)
+  // 1A.Init State
   const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    // 3.After Render
+    fetchUser();
+  }, []);
+
+  // 1B. Declare Function
   const fetchUser = async () => {
     try {
       const response = await fetch('https://jsonplaceholder.typicode.com/users/1');
@@ -15,6 +24,8 @@ export default function App() {
     // task-2 นำฟังก์ชัน fetchUser ไป binding กับ ปุ่ม
     // task-4 ลองดูผลลัพธ์ผ่าน browser + อธิบาย code ให้ตัวเองเข้าใจ
   };
+
+  // 2. Return == Render
   return (
     <main>
       {user ? (
@@ -25,9 +36,9 @@ export default function App() {
       ) : (
         <h1>Loading.....</h1>
       )}
-      <button className='bg-slate-500 p-1 rounded-md text-white' onClick={fetchUser}>
+      {/* <button className='bg-slate-500 p-1 rounded-md text-white' onClick={fetchUser}>
         fetch user
-      </button>
+      </button> */}
     </main>
   );
 }
