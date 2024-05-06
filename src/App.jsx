@@ -1,20 +1,12 @@
-import React, { useEffect } from 'react';
+import { useState } from 'react';
+import DogImage from './components/DogImage';
 
-// Function Component
 export default function App() {
-  // ### START -- FN BODY (Run Before Every Render)
-
-  // ###### START USE-EFFECT (Run After Every Render)
-  React.useEffect(() => {
-    alert('After First Render');
-  }, []);
-  // ###### END USE-EFFECT
-
-  alert('Before Render');
-
-  // ### END -- FN BODY
-  // ### START -- FN RETURN
-  return <main>Hello, React</main>;
+  const [isShow, setIsShow] = useState(false);
+  return (
+    <main>
+      <button onClick={() => setIsShow((cur) => !cur)}>toggle image</button>
+      {isShow ? <DogImage /> : null}
+    </main>
+  );
 }
-
-// FN-BODY -> Execute Code -> FN-RETURN -> Render -> Execute useEffect
